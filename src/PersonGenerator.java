@@ -24,25 +24,25 @@ public class PersonGenerator
         // Test data the lines of the file we will write
         Scanner scanner = new Scanner(System.in);
 
-        // Collect user input for the number of records
-        //Im sure there is a better way to do this with the SafeInput.getYNConfirm, but I went with this
-        int numRecords = SafeInput.getInt(scanner , "Enter the number of records you would like to enter");
+        ArrayList<Person> persons = new ArrayList<>();
 
-        ArrayList<String> persons = new ArrayList<>();
+        while (true) {
+            System.out.println("Enter data for a person:");
 
-        // Collect data for each person record
-        for (int i = 0; i < numRecords; i++) {
-            System.out.println("Enter data for person " + (i + 1));
+            String id = SafeInput.getNonZeroLenString(scanner, "ID");
+            String firstName = SafeInput.getNonZeroLenString(scanner, "First Name");
+            String lastName = SafeInput.getNonZeroLenString(scanner, "Last Name");
+            String title = SafeInput.getNonZeroLenString(scanner, "Title");
+            int yearOfBirth = SafeInput.getInt(scanner, "Year of Birth");
 
-            String id = SafeInput.getNonZeroLenString(scanner , "ID");
-            String firstName = SafeInput.getNonZeroLenString(scanner , "First Name");
-            String lastName = SafeInput.getNonZeroLenString(scanner , "LastName");
-            String title = SafeInput.getNonZeroLenString(scanner , "Title");
-            int yearOfBirth = SafeInput.getInt(scanner , "YearOfBirth");
+            // Create a Person object with the collected data and add it to the ArrayList
+            persons.add(new Person(id, firstName, lastName, title, yearOfBirth));
 
-            String personRecord = id + ", " + firstName + ", " + lastName + ", " + title + ", " + yearOfBirth;
-            persons.add(personRecord);
-            //Adds the information in csv format to the array list again there is a way to use SafeInput.getYNConfirm, but I want to do it this way
+
+
+            if (!SafeInput.getYNConfirm(scanner, "Add another person?")) {
+                break;
+            }
         }
         // uses a fixed known path:
         //  Path file = Paths.get("c:\\My Documents\\data.txt");
@@ -65,14 +65,12 @@ public class PersonGenerator
 
             // Finally can write the file LOL!
 
-            for(String rec : persons)
-            {
-                writer.write(rec, 0, rec.length());  // stupid syntax for write rec
-                // 0 is where to start (1st char) the write
-                // rec. length() is how many chars to write (all)
-                writer.newLine();  // adds the new line
-
+            for (Person person : persons) {
+                String personData = person.toCSV();
+                writer.write(personData, 0, personData.length());
+                writer.newLine();
             }
+
             writer.close(); // must close the file to seal it and flush buffer
             System.out.println("Data file written!");
         }

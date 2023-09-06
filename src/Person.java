@@ -55,4 +55,21 @@ public class Person {
     public void setDateOfBirth(int dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
+    }
+
+    //Converts everything to a csv
+    public String toCSV(){
+        return id + ", " + firstName + ", " + lastName + ", " + title + ", " + dateOfBirth;
+    }
 }
+
