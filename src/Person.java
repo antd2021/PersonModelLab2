@@ -1,3 +1,6 @@
+import java.util.Calendar;
+import java.util.concurrent.Callable;
+
 public class Person {
     private String id;
     private String firstName;
@@ -56,6 +59,7 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
+    //start of using some unique methods
     @Override
     public String toString() {
         return "Person{" +
@@ -71,5 +75,33 @@ public class Person {
     public String toCSV(){
         return id + ", " + firstName + ", " + lastName + ", " + title + ", " + dateOfBirth;
     }
+
+    public String fullName(){
+        return firstName + ", " + lastName;
+    }
+
+    public String formalName(){
+        return title + ", " + firstName + ", " + lastName;
+    }
+
+    public int getAge(){
+        int age = 2023 - dateOfBirth;
+        return age;
+    }
+
+    public int getAgeForYear(int year){
+        Calendar currentCalendar = Calendar.getInstance();
+        int currentYear  = currentCalendar.get(Calendar.YEAR);
+
+        Calendar birthdateCalendar = Calendar.getInstance();
+        birthdateCalendar.set(Calendar.YEAR, dateOfBirth);
+
+        int calcAge = year - birthdateCalendar.get(Calendar.YEAR);
+
+        return calcAge;
+
+    }
+
+
 }
 
